@@ -5,6 +5,7 @@ import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import classification_report,confusion_matrix,f1_score
 from scipy import sparse
@@ -55,16 +56,24 @@ clf = SVC(class_weight={0:1.5,1:1.3})
 clf.fit(x_train,y_train)
 
 pf = clf.predict(x_test)
+print("SVM RUN")
 print("Accuracy of prediction in percentage ", accuracy_score(y_test,pf)*100)
-#print(classification_report(y_test,pf))
+print(classification_report(y_test,pf))
+
+
+
+print("KNN RUN")
+clf2 = KNeighborsClassifier(n_neighbors=3)
+clf2.fit(x_train,y_train)
+pf2 = clf2.predict(x_test)
+print("Accuracy of prediction in percentage ", accuracy_score(y_test,pf2)*100)
+print(classification_report(y_test,pf2))
 
 agi = int(input("Enter the age of the person:\n"))
 geni = int(input("Enter 0 if the gender of person is FEMALE and 1 if it's MALE\n"))
 
-res = clf.predict([[agi,geni]])
+res = clf2.predict([[agi,geni]])
 if res == 1:
 	print("Probably will have kids")
 else:
 	print("Probably won't have kids")
-
-
