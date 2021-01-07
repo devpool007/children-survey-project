@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import seaborn as sns
+from mlxtend.plotting import plot_decision_regions
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.svm import SVC
@@ -34,7 +35,7 @@ for i in range(len(age)):
 #X = sparse.hstack([age,gen])
 
 X = list(zip(age,gen))
-
+X = np.array(X)
 Y = df['Kids']
 Y = Y.fillna(0) #fill NaN with zero kids
 Y = list(Y.astype(int))  #convert float to int values 
@@ -42,11 +43,7 @@ Y = list(Y.astype(int))  #convert float to int values
 for i in range(len(age)):
 	if Y[i] > 0:
 		Y[i] = 1
-#fig, ax = plt.subplots()
-#ax.bar(age,Y)
-#plt.plot(age,Y,linestyle='dashed',marker='o',markersize=14)
-# plt.scatter(X,Y)
-# plt.show()
+Y = np.array(Y)
 
 x_train, x_test, y_train, y_test = train_test_split(X,Y,test_size=0.3,random_state=101)
 #print(x_train)
@@ -61,13 +58,22 @@ print("Accuracy of prediction in percentage ", accuracy_score(y_test,pf)*100)
 print(classification_report(y_test,pf))
 
 
-
 print("KNN RUN")
 clf2 = KNeighborsClassifier(n_neighbors=3)
 clf2.fit(x_train,y_train)
 pf2 = clf2.predict(x_test)
 print("Accuracy of prediction in percentage ", accuracy_score(y_test,pf2)*100)
 print(classification_report(y_test,pf2))
+
+# Plotting decision region
+plot_decision_regions(X, Y, clf=clf2, legend=2)
+# Adding axes annotations
+plt.xlabel("Age")
+plt.ylabel("Gender")
+plt.title("KNN")
+plt.show()
+
+
 
 agi = int(input("Enter the age of the person:\n"))
 geni = int(input("Enter 0 if the gender of person is FEMALE and 1 if it's MALE\n"))
