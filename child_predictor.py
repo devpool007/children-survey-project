@@ -19,7 +19,7 @@ gender = df['Gender']
 #Replace Male with 1 int value and Female with 0 int value
 gen = []
 #print(age)
-for i in range(149):
+for i in range(len(age)):
 	if gender[i] == 'Male':
 		gen.append(1)
 	else:
@@ -39,7 +39,7 @@ Y = df['Kids']
 Y = Y.fillna(0) #fill NaN with zero kids
 Y = list(Y.astype(int))  #convert float to int values 
 #make it as if having kids or not having as data very less rn for multi classification
-for i in range(149):
+for i in range(len(age)):
 	if Y[i] > 0:
 		Y[i] = 1
 #fig, ax = plt.subplots()
